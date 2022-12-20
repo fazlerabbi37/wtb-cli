@@ -1,5 +1,10 @@
 #!/bin/bash
 
+INPUT_TIME=""
+INPUT_DATE=""
+INPUT_TZS=""
+BASE_TZ=""
+
 function time_line() {
     TIME=$(TZ="$1" date +%H:%M)
     TIME_HOUR=$(TZ=$1 date +%H) # handle 00 with as it produces -1
