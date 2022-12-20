@@ -57,9 +57,63 @@ function time_line() {
     echo
 }
 
-time_line UTC
-time_line CET
-time_line Asia/Kolkata
-time_line UTC-06
-time_line Asia/Dhaka
+function input_handler() {
+    while test $# -gt 0
+    do
+        case "$1" in
+            -h|--help)
+            echo "help"
+            echo "./wtb-cli.sh -t TIME -d DATE TIMEZONE1 TIMEZONE2 .. TIMEZONEn"
+            echo "-t time"
+            echo "-d date"
+            echo "-b home time zone"
+            echo "-h help"
+            echo "example: ./wtb-cli.sh -t 1600 -d 2022-12-21 Asia/Dhaka UTC CET Europe/Madrid Asia/Kolkata UTC-06"
+            echo "example: ./wtb-cli.sh -t 1600 -d 2022-12-21 -b Asia/Dhaka Asia/Dhaka UTC CET Europe/Madrid Asia/Kolkata UTC-06"
+            exit 0
+            ;;
+            -t)
+                shift
+                if test $# -gt 0
+                then
+                    INPUT_TIME=$1
+                else
+                    echo "no time specified"
+                    exit 1
+                fi
+                shift
+                ;;
+            -d)
+                shift
+                if test $# -gt 0
+                then
+                    INPUT_DATE=$1
+                fi
+                shift
+                ;;
+            -b)
+                shift
+                if test $# -gt 0
+                then
+                    BASE_TZ=$1
+                fi
+                shift
+                ;;
+            *)
+                INPUT_TZS=$@
+                return 1
+                ;;
+        esac
+
+    if [[ -z $BASE_TZ ]]
+    then
+        BASE_TZ="${INPUT_TZS[0]%% *}"
+    fi
+
+    done
+}
+
+input_handler $@
+
+
 
