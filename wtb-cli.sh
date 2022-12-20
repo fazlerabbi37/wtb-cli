@@ -12,11 +12,11 @@ function time_line() {
     UTC_DIFF=$(TZ=$INPUT_TZ date --date="@$BASE_TIME" +"%:z")
     BEFORE_HOUR=$(expr $TIME_HOUR - 1)
     echo -en "$UTC_DIFF "
-    if [[ "$1" == *"/"* ]]
+    if [[ "$INPUT_TZ" == *"/"* ]]
     then
-        echo -en $1"\t"
+        echo -en $INPUT_TZ"\t"
     else
-        echo -en $1"\t\t"
+        echo -en $INPUT_TZ"\t\t"
     fi
     echo -en $TIME"\t"
     DARK_GRAY_BACKGROUND="\e[40m"
@@ -46,7 +46,7 @@ function time_line() {
         then
             COLOR=$DEEP_BLUE
         fi
-        
+
         if [[ $i != $TIME_HOUR ]]
         then
             echo -en $DARK_GRAY_BACKGROUND$COLOR$i$NOCOLOR"  "
