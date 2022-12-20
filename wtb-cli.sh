@@ -6,9 +6,10 @@ INPUT_TZS=""
 BASE_TZ=""
 
 function time_line() {
-    TIME=$(TZ="$1" date +%H:%M)
-    TIME_HOUR=$(TZ=$1 date +%H) # handle 00 with as it produces -1
-    UTC_DIFF=$(TZ="$1" date +%z)
+    BASE_TIME=$(TZ=$BASE_TZ date --date "$INPUT_TIME $INPUT_DATE" +"%s")
+    TIME=$(TZ=$INPUT_TZ date --date="@$BASE_TIME" +"%m-%d %H:%M")
+    TIME_HOUR=$(TZ=$INPUT_TZ date --date="@$BASE_TIME" +"%H") # handle 00 with as it produces -1
+    UTC_DIFF=$(TZ=$INPUT_TZ date --date="@$BASE_TIME" +"%:z")
     BEFORE_HOUR=$(expr $TIME_HOUR - 1)
     echo -en "$UTC_DIFF "
     if [[ "$1" == *"/"* ]]
