@@ -117,3 +117,7 @@ input_handler $@
 
 
 
+for INPUT_TZ in $INPUT_TZS
+do
+    time_line $INPUT_TIME $INPUT_DATE $BASE_TZ $INPUT_TZ
+done
